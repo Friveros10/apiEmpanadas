@@ -1,0 +1,9 @@
+services:
+  frontend_empanadas:
+    container_name: frontend_empanadas
+    build: .
+    volumes:
+      - ./frontend_empanadas:/var/www/html
+    ports:
+      - 8080:80
+ 
