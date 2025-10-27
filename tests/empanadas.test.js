@@ -12,7 +12,7 @@ describe("API Empanadas", () => {
     const newEmpanada = {
       name: "Empanada de queso",
       price: 1200,
-      type: "Frinta",
+      type: "Frita",
       filling: "Queso",
     };
     const res = await request(app).post("/empanadas").send(newEmpanada);
