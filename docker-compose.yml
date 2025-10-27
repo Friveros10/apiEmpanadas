@@ -1,9 +1,35 @@
+version: "3.8"
+
 services:
-  frontend_empanadas:
-    container_name: frontend_empanadas
+  app:
     build: .
-    volumes:
-      - ./frontend_empanadas:/var/www/html
+    container_name: proyecto_empanadas_app
     ports:
-      - 8080:80
- 
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - MYSQLDB_HOST=mysqldb
+      - MYSQLDB_USER=root
+      - MYSQLDB_PASSWORD=rootpass
+      - MYSQLDB_DATABASE=empanadasdb
+      - MYSQLDB_PORT=3306
+    depends_on:
+      - mysqldb
+    command: nodemon index.js
+
+  mysqldb:
+    image: mysql:8.0
+    container_name: proyecto_empanadas_mysqldb
+    restart: always
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: empanadasdb
+    volumes:
+      - mysqldb_data:/var/lib/mysql
+
+volumes:
+  mysqldb_data:
