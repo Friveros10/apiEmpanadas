@@ -3,6 +3,7 @@ import { config } from "dotenv";
 import cors from "cors";
 import sequelize from "./config/database.js";
 import empanadasRoutes from "./routes/empanadas.js";
+import userRoutes from "./routes/user.js";
 
 config();
 
@@ -10,19 +11,16 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:8080",
+    origin: "http://localhost:3001",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
-
+app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Hello, super World!");
-});
-
 app.use("/empanadas", empanadasRoutes);
+app.use("/users", userRoutes);
 
 // Función async para conectar la base de datos
 async function startServer() {
@@ -34,10 +32,11 @@ async function startServer() {
   }
 
   if (process.env.NODE_ENV !== "test") {
-    const PORT = process.env.PORT || 3000;
+    const PORT = 5000;
     app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
   }
 }
+
 
 // Ejecutar la función
 startServer();
