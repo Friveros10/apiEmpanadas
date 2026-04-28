@@ -171,73 +171,73 @@ export const deleteUser = async (req, res) => {
   }
 };
 
-// 🔹 Iniciar sesión (Sign In)
-export const signIn = async (req, res) => {
-  try {
-    const { email, password } = req.body;
+// // 🔹 Iniciar sesión (Sign In)
+// export const signIn = async (req, res) => {
+//   try {
+//     const { email, password } = req.body;
 
-    if (!email || !password) {
-      return res.status(400).json({ message: "Faltan campos obligatorios" });
-    }
+//     if (!email || !password) {
+//       return res.status(400).json({ message: "Faltan campos obligatorios" });
+//     }
 
-    const user = await User.findOne({ where: { email } });
+//     const user = await User.findOne({ where: { email } });
 
-    if (!user) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
-    }
+//     if (!user) {
+//       return res.status(404).json({ message: "Usuario no encontrado" });
+//     }
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+//     const isPasswordValid = await bcrypt.compare(password, user.password);
 
-    if (!isPasswordValid) {
-      return res.status(401).json({ message: "Credenciales inválidas" });
-    }
+//     if (!isPasswordValid) {
+//       return res.status(401).json({ message: "Credenciales inválidas" });
+//     }
 
-    const token = jwt.sign(
-      { id: user.id, email: user.email, tipo: user.tipo },
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" }
-    );
+//     const token = jwt.sign(
+//       { id: user.id, email: user.email, tipo: user.tipo },
+//       process.env.JWT_SECRET,
+//       { expiresIn: "1h" }
+//     );
 
-    return res.status(200).json({
-      message: "Inicio de sesión exitoso",
-      token,
-    });
-  } catch (error) {
-    return res.status(500).json({
-      message: "Error al iniciar sesión",
-      error: error.message,
-    });
-  }
-};
+//     return res.status(200).json({
+//       message: "Inicio de sesión exitoso",
+//       token,
+//     });
+//   } catch (error) {
+//     return res.status(500).json({
+//       message: "Error al iniciar sesión",
+//       error: error.message,
+//     });
+//   }
+// };
 
-// 🔹 Cerrar sesión (Sign Out)
-export const signOut = async (req, res) => {
-  try {
-    // Invalidate token on the client side (e.g., remove it from storage)
-    return res.status(200).json({
-      message: "Cierre de sesión exitoso",
-    });
-  } catch (error) {
-    return res.status(500).json({
-      message: "Error al cerrar sesión",
-      error: error.message,
-    });
-  }
-};
+// // 🔹 Cerrar sesión (Sign Out)
+// export const signOut = async (req, res) => {
+//   try {
+//     // Invalidate token on the client side (e.g., remove it from storage)
+//     return res.status(200).json({
+//       message: "Cierre de sesión exitoso",
+//     });
+//   } catch (error) {
+//     return res.status(500).json({
+//       message: "Error al cerrar sesión",
+//       error: error.message,
+//     });
+//   }
+// };
 
-// Middleware para autenticar usuarios
-export const authenticate = (req, res, next) => {
-  const token = req.headers.authorization?.split(" ")[1];
+// // Middleware para autenticar usuarios
+// export const authenticate = (req, res, next) => {
+//   const token = req.headers.authorization?.split(" ")[1];
 
-  if (!token) {
-    return res.status(401).json({ message: "Token no proporcionado" });
-  }
+//   if (!token) {
+//     return res.status(401).json({ message: "Token no proporcionado" });
+//   }
 
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
-    next();
-  } catch (error) {
-    return res.status(401).json({ message: "Token inválido o expirado" });
-  }
-};
+//   try {
+//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+//     req.user = decoded;
+//     next();
+//   } catch (error) {
+//     return res.status(401).json({ message: "Token inválido o expirado" });
+//   }
+// };

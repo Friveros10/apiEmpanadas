@@ -1,8 +1,8 @@
 import { Router } from "express";
 
 import {
-  signIn,
-  signOut,
+  // signIn,
+  // signOut,
   getAllUsers,
   getUserById,
   createUser,
@@ -18,8 +18,8 @@ router.post("/", createUser);
 router.put("/:id", updateUser);
 router.delete("/:id", deleteUser);
 
-router.post("/signin", signIn);
-router.post("/signout", signOut);
+// router.post("/signin", signIn);
+// router.post("/signout", signOut);
 
 
 export default router;
